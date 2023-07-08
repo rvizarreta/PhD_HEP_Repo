@@ -1,0 +1,11 @@
+//------------------------------------------------------------
+// Standard MINERvA-GAUDI Job Setup
+//-----------------------------------------------------------
+#include "$MINERVAOPTS/MinervaApplication.opts"
+DetectorDataSvc.DetDbLocation = "$MINERVA_GEOMETRY/MINERVA.xml";
+DetectorDataSvc.ApplyAlignment = true;
+ApplicationMgr.TopAlg += { "PlexWriterAlg" };
+ApplicationMgr.EvtMax = 1;
+ApplicationMgr.EvtSel = "NONE";
+PlexWriterAlg.RunNumber = 6015;
+PlexWriterAlg.OutputLevel = 3;

@@ -1,0 +1,5 @@
+# ROOT map file generated automatically by genmap on Mon Jun 19 13:41:53 2023
+
+Library.__pf__@@MuonFuzzStudyAlg: libRockMuonCalibration.so
+Library.__pf__@@PlexWriterAlg: libRockMuonCalibration.so
+Library.__pf__@@RockMuonCalibrationAlg: libRockMuonCalibration.so

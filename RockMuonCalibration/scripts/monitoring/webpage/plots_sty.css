@@ -1,0 +1,98 @@
+
+body {
+	margin: 10; 
+	padding: 4; 
+	font: normal 82% sans-serif; 
+	background-color: #ffffff; 
+}
+
+
+h1 {
+	margin: 0; 
+	margin-bottom: 0px; 
+	padding: 8px; 
+	color: #ffffff; 
+	background-color: #151B54;
+}
+
+
+.tagline {
+	font-size: 60%; 
+	color: #ffffff;
+}
+
+
+td {
+	font: 100% sans-serif;
+	padding-bottom: 0px;
+}
+
+fleg {font: 95% sans-serif;}
+
+ftit {
+font: 120% sans-serif; 
+color: #0000ff
+}
+
+fred {
+font: 120% sans-serif; 
+color: #ff0000
+}
+
+fgreen {
+font: 120% sans-serif; 
+color: #00cd00
+}
+
+
+/*ul.NoBullet {list-style-type: none;} */
+
+
+#content {
+padding: 0; 
+border-left: solid 1px #cccccc; 
+border-top: 0; 
+border-bottom: solid 1px #ffffff;
+background-color: #ffffff;
+}
+
+
+#content h3 {
+margin: 0; 
+padding: 10px; 
+font-weight: normal; 
+background-color: #c0c0c0; 
+border-top: solid 1px #000000; 
+border-bottom: solid 1px #000000; 
+}
+
+#content p {
+margin: 5px; 
+color: #000000;
+}
+
+#content .point {
+margin: 3%; 
+padding: 0px; 
+border: solid 1px #000000; 
+border-top: 0; 
+background-color: #f9f9f9;
+}
+
+#content .code {
+margin: 3%; 
+padding: 7px; 
+border: solid 1px #cccccc; 
+background-color: #eeeeee; 
+font: normal 100% courier; 
+color: #000000;
+}
+
+#runlist {
+padding: 0; 
+border-left: solid 1px #cccccc; 
+border-top: 0; 
+border-bottom: solid 1px #ffffff;  
+background-color: #ffffff;
+overflow:visible; height:950;
+	}

@@ -1,0 +1,149 @@
+//------------------------------------------------------------
+// Standard MINERvA-GAUDI Job Setup
+//------------------------------------------------------------
+#include "$MINERVAOPTS/MinervaApplication.opts"
+#include "$MNVDETECTORMCOPTS/Common.opts"
+
+//------------------------------------------------------------
+// Geometry selection
+// options are 'MINERVA', 'Frozen', 'TP_NuMI'
+//------------------------------------------------------------
+DetectorDataSvc.DetDbLocation = "$MINERVA_GEOMETRY/MINERVA.xml";
+DetectorDataSvc.ApplyAlignment = false;
+
+//---------------------------------------------------------------------------
+// Applications to Run in this job
+//---------------------------------------------------------------------------
+ApplicationMgr.DLLs += { "GaudiAlg"};
+ApplicationMgr.DLLs += { "GaudiAud"};
+AuditorSvc.Auditors  = { "MemoryAuditor", "ChronoAuditor" };
+
+ApplicationMgr.Dlls += { "MinervaDet", "IDDet", "ODDet" };
+
+//----- MNVDetectormc -----//
+ApplicationMgr.TopAlg += { "GaudiSequencer/Generator"  };
+ApplicationMgr.TopAlg += { "GaudiSequencer/Simulation" };
+
+Generator.Members  = { "GenInit/MegaGen" };
+Generator.Members += { "ParticleCannon", "GaudiSequencer/GenMonitor" };
+
+Simulation.Members = { "SimInit/MegaSim" };
+
+//----- Readout -----//
+ApplicationMgr.TopAlg += { "GaudiSequencer/ReadoutSim" };
+ReadoutSim.Members    += { "ReadoutAlg/ReadoutAlg" };
+
+ApplicationMgr.TopAlg += { "ChronoBuncherAlg" };
+ApplicationMgr.TopAlg += { "XTalkScoreGraderAlg" };
+ApplicationMgr.TopAlg += { "ClusterFormationAlg" };
+ApplicationMgr.TopAlg += { "PrimaryVertexAndTrackBuilder" };
+ApplicationMgr.TopAlg += { "PrimaryTrackProngAlg" };
+ApplicationMgr.TopAlg += { "AttenuationAlg" };
+ApplicationMgr.TopAlg += { "MuonFuzzStudyAlg" };
+
+//---------------------------------------------------------------------------
+// Initialize the Phases: set run and first event number,
+//                        hence setting random numbers to start with
+//---------------------------------------------------------------------------
+MegaGen.FirstEventNumber = 1;
+MegaGen.RunNumber        = 1;
+MegaGen.SubrunNumber     = 1;
+ReadoutAlg.RunNumber     = 1;
+ReadoutAlg.SubrunNumber  = 1;
+
+EventClockSvc.FakeEventTime.StartTime   = 0;
+EventClockSvc.FakeEventTime.TimeStep    = 25*ns;
+
+//------------------------------------------------------------
+// Input File and Event Selection
+//------------------------------------------------------------
+ApplicationMgr.EvtMax        = 3000; //must be set to max n muons
+
+//--------------------------------------------------------------
+// POOL / DST / Histogram Output Files
+//--------------------------------------------------------------
+MuonFuzzStudyAlg.OutputFilename = "rockMu.root";
+HistogramPersistencySvc.OutputFile = "RockMuonReconstructionMC_Histos.root";
+
+//--------------------------------------------------------------
+// Algorithm options
+//--------------------------------------------------------------
+
+//----- MNVDetectormc -----//
+#include "$MNVDETECTORMCOPTS/Simulation.opts"
+
+//don't need exiting particles
+GiGa.EventSeq.UserEventAction.WriteHepEvtFormat   = false;
+
+//--- Particle Cannon
+Generator.Members += { "ParticleCannon" };
+ParticleCannon.SpillType = 500000;
+
+ParticleCannon.NumberOfParticlesTool  = "FixedNParticles";
+ParticleCannon.VertexPositionTool     = "CylindricalVertex";
+ParticleCannon.VertexTimeTool         = "SpillTimeFactory";
+
+ParticleCannon.FixedNParticles.NParticles = 1;
+ParticleCannon.ParticleNameList = { "ExtParticle" };
+ParticleCannon.ExtParticle.ParticleListFile = "MEU_RockMuons_0001.txt";
+
+//----- Readout -----//
+//Options for Detector type are TrackingPrototype, Frozen, MINERvA, PMTTestStand, TestBeam
+ReadoutAlg.DetectorType  = "MINERvA";
+
+// Simulate nearest- and next-to-nearest-neighbor cross-talk.
+ToolSvc.PmtModel.SimulateDynodeXtalk  = true;
+ToolSvc.PmtModel.SimulateOpticalXtalk = true;
+ToolSvc.TripModel.SimulateXtalk       = true;
+ToolSvc.PmtDynodeXtalk.DistanceLimit  = 2;
+ToolSvc.PmtOpticalXtalk.DistanceLimit = 2;
+
+ReadoutSim.MeasureTime   = true;
+
+//-------- PVaTB options for speed --------------------------
+PrimaryVertexAndTrackBuilder.FitVertex             = false;
+PrimaryVertexAndTrackBuilder.FindSecondaryVertices = false;
+PrimaryVertexAndTrackBuilder.CheckPrimaryVertex    = false;
+
+//-------- Track Cleaning -----------------------------------
+// Turn track cleaning off for calibrations
+ToolSvc.AnchorSelectorTool.BreakClusters = false;
+PrimaryVertexAndTrackBuilder.BreakAnchoredHIClusters = false;
+PrimaryVertexAndTrackBuilder.BreakAnchoredSuperClusters = false;
+
+// MCBaseStage of ProductionScripts will swap these to the proper tag of "eroica" or "resurrection" based on software version
+ToolSvc.GetStripResponse.DbTag = "";
+ToolSvc.GetCalEnergy.DbTag = "";
+
+//---------------------------------------------------------------------------
+// Output level 1=VERBOSE, 2=DEBUG, 3=INFO, 4=WARNING, 5=ERROR, 6=FATAL
+//---------------------------------------------------------------------------
+
+MessageSvc.OutputLevel                          = 3;
+Generator.OutputLevel                           = 3;
+MegaGen.OutputLevel                             = 4;
+MegaSim.OutputLevel                             = 4;
+
+MessageSvc.MinervaDet.OutputLevel               = 3;
+MessageSvc.ODDet.OutputLevel                    = 3;
+ReadoutAlg.OutputLevel                          = 3;
+MuonFuzzStudyAlg.OutputLevel                    = 3;
+ToolSvc.FullMinervaReadoutBuilder.OutputLevel   = 3;
+ToolSvc.MinervaPlexModel.OutputLevel            = 3;
+ToolSvc.OpticalModel.OutputLevel                = 3;
+ToolSvc.LightInjector.OutputLevel               = 3;
+ToolSvc.AdcModel.OutputLevel                    = 3;
+ToolSvc.DiscriminatorModel.OutputLevel          = 3;
+ToolSvc.MinervaPlexModel.OutputLevel            = 3;
+
+ToolSvc.VetoProngMatchTool.OutputLevel             = 5;
+
+ChronoBuncherAlg.OutputLevel                    = 3;
+ClusterFormationAlg.OutputLevel                 = 3;
+PrimaryVertexAndTrackBuilder.OutputLevel        = 3;
+AttenuationAlg.OutputLevel                      = 3;
+RockMuonCalibrationAlg.OutputLevel              = 3; 
+DSTWriterAlg.OutputLevel                        = 3;
+
+//===========================================================================
+

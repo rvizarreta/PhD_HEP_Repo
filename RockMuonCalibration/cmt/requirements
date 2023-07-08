@@ -1,0 +1,20 @@
+package RockMuonCalibration
+version ${MINERVA_RELEASE}
+branches cmt src scripts
+
+#==============================================================================
+
+use Gaudi                v*     Gaudi
+use MinervaEvent         v*     Event
+use MinervaDet           v*     Det
+use Plex                 v*     Det
+use Attenuation          v*     Cal
+use RawToDigit           v*     Cal
+use NumiInterface        v*     Tools
+use AnaUtils             v*     Ana
+
+#==============================================================================
+
+library RockMuonCalibration *.cpp
+apply_pattern install_more_includes more=RockMuonCalibration
+apply_pattern component_library library=RockMuonCalibration

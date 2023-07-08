@@ -1,0 +1,158 @@
+//------------------------------------------------------------
+// Standard MINERvA-GAUDI Job Setup
+//------------------------------------------------------------
+#include "$MINERVAOPTS/MinervaApplication.opts"
+
+//------------------------------------------------------------
+// Geometry selection
+//------------------------------------------------------------
+DetectorDataSvc.DetDbLocation = "$MINERVA_GEOMETRY/MINERVA.xml";
+DetectorDataSvc.ApplyAlignment = true;
+
+//------------------------------------------------------------
+// Applications to Run in this job
+//------------------------------------------------------------
+//------------------------------------------------------------
+// Applications to Run in this job
+//
+// The default configuration for this file is to run from files of RawDigits.
+//  
+//  To run from RawEvents, uncomment the line to include DecodeRawEvent.
+//  To run from RawData, also uncomment the line to inlcude BuildRawEvent and
+//    set the EvtSel = "NONE".
+//------------------------------------------------------------
+
+ApplicationMgr.DLLs   += { "DaqRecv" };
+
+//ApplicationMgr.TopAlg += { "BuildRawEventAlg" };
+//ApplicationMgr.EvtSel = "NONE";
+//ApplicationMgr.TopAlg += { "DecodeRawEvent" };
+//ApplicationMgr.TopAlg += { "OfflinePedSup" };
+//ApplicationMgr.TopAlg += { "TransientStoreCleaner/RawDigitKiller" };
+
+ApplicationMgr.TopAlg += { "RawToDigitAlg" };
+ApplicationMgr.TopAlg += { "MinosDataAlg" };
+ApplicationMgr.TopAlg += { "NumiDataAlg" };
+ApplicationMgr.TopAlg += { "ChronoBuncherAlg" };
+ApplicationMgr.TopAlg += { "XTalkScoreGraderAlg" };
+ApplicationMgr.TopAlg += { "ClusterFormationAlg" };
+ApplicationMgr.TopAlg += { "PrimaryVertexAndTrackBuilder" };
+ApplicationMgr.TopAlg += { "AttenuationAlg" };
+ApplicationMgr.TopAlg += { "PrimaryTrackProngAlg" };
+ApplicationMgr.TopAlg += { "MuonFuzzStudyAlg" };
+
+//------------------------------------------------------------
+// Input File and Event Selection
+//------------------------------------------------------------
+//== RawData input
+BuildRawEventAlg.InputFileName = "RawData.dat";
+
+BuildRawEventAlg.PrintFreq  = 10;
+BuildRawEventAlg.FirstEvent = 1;
+BuildRawEventAlg.EvtMax     = -1;
+
+// -- OR --
+
+EventSelector.Input = {"DATAFILE='Digits.root' TYP='POOL_ROOTTREE' OPT='READ'" };
+
+EventSelector.PrintFreq  = 10;
+EventSelector.FirstEvent = 1;
+ApplicationMgr.EvtMax    = 100;
+
+// For MINOS files
+#include "/minerva/data/minos/MinosFileDB/MinosFileDB_Minerva.opts"
+
+//--------------------------------------------------------------
+// POOL / DST / Histogram / NTuple Output Files
+//--------------------------------------------------------------
+
+HistogramPersistencySvc.OutputFile  = "Histos.root";
+MuonFuzzStudyAlg.OutputFilename = "rockMu.root";
+
+//==============================================================
+//
+//  Algorithm/Tool user-defined parameters
+//
+//==============================================================
+
+
+//-- Calibration tools
+//-------------------------------------------
+RawToDigitAlg.DigitLocation = "DAQ/SupDigits";
+RawToDigitAlg.DoCalCharge       = true;
+RawToDigitAlg.DoCalPE           = true;
+RawToDigitAlg.DoClearFiberAtten = true;
+RawToDigitAlg.DoWLSBaggieAtten  = true;
+RawToDigitAlg.DoStripAtten      = true;
+RawToDigitAlg.DoCalStrip        = true;
+RawToDigitAlg.DoPeToEnergy      = true;
+RawToDigitAlg.DoCalTime         = true;
+RawToDigitAlg.DoCalVeto         = false;
+
+ToolSvc.GetStripResponse.KillErrorStrips = true;
+
+ToolSvc.GetStripResponse.DbTag = "";
+ToolSvc.GetCalEnergy.DbTag = "";
+
+//-------- PVaTB options for speed --------------------------
+PrimaryVertexAndTrackBuilder.FitVertex             = false;
+PrimaryVertexAndTrackBuilder.FindSecondaryVertices = false;
+PrimaryVertexAndTrackBuilder.CheckPrimaryVertex    = false;
+
+//-------- Track Cleaning -----------------------------------
+// Turn track cleaning off for calibrations
+ToolSvc.AnchorSelectorTool.BreakClusters = false;
+PrimaryVertexAndTrackBuilder.BreakAnchoredHIClusters = false;
+PrimaryVertexAndTrackBuilder.BreakAnchoredSuperClusters = false;
+
+//==============================================================
+//
+//  Verbosity Levels
+//
+//==============================================================
+
+//-----------------------------------------------------------
+// 1=VERBOSE, 2=DEBUG, 3=INFO, 4=WARNING, 5=ERROR, 6=FATAL
+//-----------------------------------------------------------
+
+MessageSvc.OutputLevel                             = 4;
+
+BuildRawEventAlg.OutputLevel                       = 3;
+DecodeRawEvent.OutputLevel                         = 4;
+OfflinePedSup.OutputLevel                          = 3;
+RawDigitKiller.OutputLevel                         = 3;
+RawToDigitAlg.OutputLevel                          = 3;
+ChronoBuncherAlg.OutputLevel                       = 3;
+ClusterFormationAlg.OutputLevel                    = 3;
+PrimaryVertexAndTrackBuilder.OutputLevel           = 3;
+PrimaryTrackProngAlg.OutputLevel                   = 3;
+MuonFuzzStudyAlg.OutputLevel                       = 3;
+
+ToolSvc.PedSupTool.OutputLevel                     = 3;
+ToolSvc.MinervaPlexModel.OutputLevel               = 3;
+
+ToolSvc.VetoProngMatchTool.OutputLevel             = 5;
+
+ToolSvc.MuonUtils.OutputLevel                      = 3;
+ToolSvc.GetCalCharge.OutputLevel                   = 3;
+ToolSvc.GetCalPE.OutputLevel                       = 3;
+ToolSvc.GetCalTime.OutputLevel                     = 3;
+ToolSvc.GetCalAttenuation.OutputLevel              = 3;
+ToolSvc.GetStripResponse.OutputLevel               = 3;
+ToolSvc.GetCalTime.OutputLevel                     = 3;
+ToolSvc.TimingCorrections.OutputLevel              = 3;
+
+ToolSvc.BasicIDClusterCreator.OutputLevel          = 3;
+ToolSvc.BasicODClusterCreator.OutputLevel          = 3;
+
+ToolSvc.TrackKalmanFilter.OutputLevel              = 3;
+ToolSvc.TrackProjector.OutputLevel                 = 3;
+ToolSvc.TrackAddClusters.OutputLevel               = 3;
+ToolSvc.LongTrackFormation.OutputLevel             = 3;
+ToolSvc.SeedPatternRecognition.OutputLevel         = 3;
+ToolSvc.StateCorrectionTool.OutputLevel            = 3;
+ToolSvc.TrackPropagatorKalmanFilter.OutputLevel    = 3;
+
+//===========================================================================
+//===========================================================================
+//===========================================================================

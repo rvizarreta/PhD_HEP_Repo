@@ -1,0 +1,159 @@
+#-- start of make_header -----------------
+
+#====================================
+#  Document RockMuonCalibrationConfDbMerge
+#
+#   Generated Fri Jun 16 11:01:29 2023  by rvizarr
+#
+#====================================
+
+include ${CMTROOT}/src/Makefile.core
+
+ifdef tag
+CMTEXTRATAGS = $(tag)
+else
+tag       = $(CMTCONFIG)
+endif
+
+cmt_RockMuonCalibrationConfDbMerge_has_no_target_tag = 1
+
+#--------------------------------------------------------
+
+ifdef cmt_RockMuonCalibrationConfDbMerge_has_target_tag
+
+tags      = $(tag),$(CMTEXTRATAGS),target_RockMuonCalibrationConfDbMerge
+
+RockMuonCalibration_tag = $(tag)
+
+#cmt_local_tagfile_RockMuonCalibrationConfDbMerge = $(RockMuonCalibration_tag)_RockMuonCalibrationConfDbMerge.make
+cmt_local_tagfile_RockMuonCalibrationConfDbMerge = $(bin)$(RockMuonCalibration_tag)_RockMuonCalibrationConfDbMerge.make
+
+else
+
+tags      = $(tag),$(CMTEXTRATAGS)
+
+RockMuonCalibration_tag = $(tag)
+
+#cmt_local_tagfile_RockMuonCalibrationConfDbMerge = $(RockMuonCalibration_tag).make
+cmt_local_tagfile_RockMuonCalibrationConfDbMerge = $(bin)$(RockMuonCalibration_tag).make
+
+endif
+
+include $(cmt_local_tagfile_RockMuonCalibrationConfDbMerge)
+#-include $(cmt_local_tagfile_RockMuonCalibrationConfDbMerge)
+
+ifdef cmt_RockMuonCalibrationConfDbMerge_has_target_tag
+
+cmt_final_setup_RockMuonCalibrationConfDbMerge = $(bin)setup_RockMuonCalibrationConfDbMerge.make
+#cmt_final_setup_RockMuonCalibrationConfDbMerge = $(bin)RockMuonCalibration_RockMuonCalibrationConfDbMergesetup.make
+cmt_local_RockMuonCalibrationConfDbMerge_makefile = $(bin)RockMuonCalibrationConfDbMerge.make
+
+else
+
+cmt_final_setup_RockMuonCalibrationConfDbMerge = $(bin)setup.make
+#cmt_final_setup_RockMuonCalibrationConfDbMerge = $(bin)RockMuonCalibrationsetup.make
+cmt_local_RockMuonCalibrationConfDbMerge_makefile = $(bin)RockMuonCalibrationConfDbMerge.make
+
+endif
+
+cmt_final_setup = $(bin)setup.make
+#cmt_final_setup = $(bin)RockMuonCalibrationsetup.make
+
+#RockMuonCalibrationConfDbMerge :: ;
+
+dirs ::
+	@if test ! -r requirements ; then echo "No requirements file" ; fi; \
+	  if test ! -d $(bin) ; then $(mkdir) -p $(bin) ; fi
+
+javadirs ::
+	@if test ! -d $(javabin) ; then $(mkdir) -p $(javabin) ; fi
+
+srcdirs ::
+	@if test ! -d $(src) ; then $(mkdir) -p $(src) ; fi
+
+help ::
+	$(echo) 'RockMuonCalibrationConfDbMerge'
+
+binobj = 
+ifdef STRUCTURED_OUTPUT
+binobj = RockMuonCalibrationConfDbMerge/
+#RockMuonCalibrationConfDbMerge::
+#	@if test ! -d $(bin)$(binobj) ; then $(mkdir) -p $(bin)$(binobj) ; fi
+#	$(echo) "STRUCTURED_OUTPUT="$(bin)$(binobj)
+endif
+
+ifdef use_requirements
+$(use_requirements) : ;
+endif
+
+#-- end of make_header ------------------
+# File: cmt/fragments/merge_genconfDb_header
+# Author: Sebastien Binet (binet@cern.ch)
+
+# Makefile fragment to merge a <library>_confDb.py file into a single
+# <project>_merged_confDb.py file in the (python) install area
+# Note that <project> is massaged to get a valid python module name
+# (ie: remove dots and dashes)
+
+.PHONY: RockMuonCalibrationConfDbMerge RockMuonCalibrationConfDbMergeclean
+
+# default is already '#'
+#genconfDb_comment_char := "'#'"
+
+instdir      := ${CMTINSTALLAREA}$(shared_install_subdir)
+confDbRef    := /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration/RockMuonCalibration_confDb.py
+stampConfDb  := $(confDbRef).stamp
+mergedConfDb := $(instdir)/python/$(subst .,_,$(subst -,_,$(project)))_merged_confDb.py
+
+RockMuonCalibrationConfDbMerge :: $(stampConfDb) $(mergedConfDb)
+	@:
+
+.NOTPARALLEL : $(stampConfDb) $(mergedConfDb)
+
+$(stampConfDb) $(mergedConfDb) :: $(confDbRef)
+	@echo "Running merge_genconfDb  RockMuonCalibrationConfDbMerge"
+	$(merge_genconfDb_cmd) \
+          --do-merge \
+          --input-file $(confDbRef) \
+          --merged-file $(mergedConfDb)
+
+RockMuonCalibrationConfDbMergeclean ::
+	$(cleanup_silent) $(merge_genconfDb_cmd) \
+          --un-merge \
+          --input-file $(confDbRef) \
+          --merged-file $(mergedConfDb)	;
+	$(cleanup_silent) $(remove_command) $(stampConfDb)
+libRockMuonCalibration_so_dependencies = ../x86_64-slc7-gcc49-opt/libRockMuonCalibration.so
+#-- start of cleanup_header --------------
+
+clean :: RockMuonCalibrationConfDbMergeclean ;
+#	@cd .
+
+ifndef PEDANTIC
+.DEFAULT::
+	$(echo) "(RockMuonCalibrationConfDbMerge.make) $@: No rule for such target" >&2
+#	@echo "#CMT> Warning: $@: No rule for such target" >&2; exit
+	if echo $@ | grep '$(package)setup\.make$$' >/dev/null; then\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConfDbMerge.make): $@: File no longer generated" >&2; exit 0; fi
+else
+.DEFAULT::
+	$(echo) "(RockMuonCalibrationConfDbMerge.make) PEDANTIC: $@: No rule for such target" >&2
+	if echo $@ | grep '$(package)setup\.make$$' >/dev/null; then\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConfDbMerge.make): $@: File no longer generated" >&2; exit 0;\
+	 elif test $@ = "$(cmt_final_setup)" -o\
+	 $@ = "$(cmt_final_setup_RockMuonCalibrationConfDbMerge)" ; then\
+	 found=n; for s in 1 2 3 4 5; do\
+	 sleep $$s; test ! -f $@ || { found=y; break; }\
+	 done; if test $$found = n; then\
+	 test -z "$(cmtmsg)" ||\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConfDbMerge.make) PEDANTIC: $@: Seems to be missing. Ignore it for now" >&2; exit 0 ; fi;\
+	 elif test `expr $@ : '.*/'` -ne 0 ; then\
+	 test -z "$(cmtmsg)" ||\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConfDbMerge.make) PEDANTIC: $@: Seems to be a missing file. Please check" >&2; exit 2 ; \
+	 else\
+	 test -z "$(cmtmsg)" ||\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConfDbMerge.make) PEDANTIC: $@: Seems to be a fake target due to some pattern. Just ignore it" >&2 ; exit 0; fi
+endif
+
+RockMuonCalibrationConfDbMergeclean ::
+#-- end of cleanup_header ---------------

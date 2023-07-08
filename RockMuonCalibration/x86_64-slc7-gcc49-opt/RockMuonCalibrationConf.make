@@ -1,0 +1,172 @@
+#-- start of make_header -----------------
+
+#====================================
+#  Document RockMuonCalibrationConf
+#
+#   Generated Mon Jun 19 13:41:54 2023  by rvizarr
+#
+#====================================
+
+include ${CMTROOT}/src/Makefile.core
+
+ifdef tag
+CMTEXTRATAGS = $(tag)
+else
+tag       = $(CMTCONFIG)
+endif
+
+cmt_RockMuonCalibrationConf_has_no_target_tag = 1
+
+#--------------------------------------------------------
+
+ifdef cmt_RockMuonCalibrationConf_has_target_tag
+
+tags      = $(tag),$(CMTEXTRATAGS),target_RockMuonCalibrationConf
+
+RockMuonCalibration_tag = $(tag)
+
+#cmt_local_tagfile_RockMuonCalibrationConf = $(RockMuonCalibration_tag)_RockMuonCalibrationConf.make
+cmt_local_tagfile_RockMuonCalibrationConf = $(bin)$(RockMuonCalibration_tag)_RockMuonCalibrationConf.make
+
+else
+
+tags      = $(tag),$(CMTEXTRATAGS)
+
+RockMuonCalibration_tag = $(tag)
+
+#cmt_local_tagfile_RockMuonCalibrationConf = $(RockMuonCalibration_tag).make
+cmt_local_tagfile_RockMuonCalibrationConf = $(bin)$(RockMuonCalibration_tag).make
+
+endif
+
+include $(cmt_local_tagfile_RockMuonCalibrationConf)
+#-include $(cmt_local_tagfile_RockMuonCalibrationConf)
+
+ifdef cmt_RockMuonCalibrationConf_has_target_tag
+
+cmt_final_setup_RockMuonCalibrationConf = $(bin)setup_RockMuonCalibrationConf.make
+#cmt_final_setup_RockMuonCalibrationConf = $(bin)RockMuonCalibration_RockMuonCalibrationConfsetup.make
+cmt_local_RockMuonCalibrationConf_makefile = $(bin)RockMuonCalibrationConf.make
+
+else
+
+cmt_final_setup_RockMuonCalibrationConf = $(bin)setup.make
+#cmt_final_setup_RockMuonCalibrationConf = $(bin)RockMuonCalibrationsetup.make
+cmt_local_RockMuonCalibrationConf_makefile = $(bin)RockMuonCalibrationConf.make
+
+endif
+
+cmt_final_setup = $(bin)setup.make
+#cmt_final_setup = $(bin)RockMuonCalibrationsetup.make
+
+#RockMuonCalibrationConf :: ;
+
+dirs ::
+	@if test ! -r requirements ; then echo "No requirements file" ; fi; \
+	  if test ! -d $(bin) ; then $(mkdir) -p $(bin) ; fi
+
+javadirs ::
+	@if test ! -d $(javabin) ; then $(mkdir) -p $(javabin) ; fi
+
+srcdirs ::
+	@if test ! -d $(src) ; then $(mkdir) -p $(src) ; fi
+
+help ::
+	$(echo) 'RockMuonCalibrationConf'
+
+binobj = 
+ifdef STRUCTURED_OUTPUT
+binobj = RockMuonCalibrationConf/
+#RockMuonCalibrationConf::
+#	@if test ! -d $(bin)$(binobj) ; then $(mkdir) -p $(bin)$(binobj) ; fi
+#	$(echo) "STRUCTURED_OUTPUT="$(bin)$(binobj)
+endif
+
+ifdef use_requirements
+$(use_requirements) : ;
+endif
+
+#-- end of make_header ------------------
+# File: cmt/fragments/genconfig_header
+# Author: Wim Lavrijsen (WLavrijsen@lbl.gov)
+
+# Use genconf.exe to create configurables python modules, then have the
+# normal python install procedure take over.
+
+.PHONY: RockMuonCalibrationConf RockMuonCalibrationConfclean
+
+confpy  := RockMuonCalibrationConf.py
+conflib := $(bin)$(library_prefix)RockMuonCalibration.$(shlibsuffix)
+dbpy    := RockMuonCalibration_confDb.py
+instdir := $(CMTINSTALLAREA)$(shared_install_subdir)/python/$(package)
+product := $(instdir)/$(confpy)
+initpy  := $(instdir)/__init__.py
+
+ifdef GENCONF_ECHO
+genconf_silent =
+else
+genconf_silent = $(silent)
+endif
+
+RockMuonCalibrationConf :: RockMuonCalibrationConfinstall
+
+install :: RockMuonCalibrationConfinstall
+
+RockMuonCalibrationConfinstall : /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration/$(confpy)
+	@echo "Installing /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration in /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/InstallArea/x86_64-slc7-gcc49-opt/python" ; \
+	 $(install_command) --exclude="*.py?" --exclude="__init__.py" /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/InstallArea/x86_64-slc7-gcc49-opt/python ; \
+
+/minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration/$(confpy) : $(conflib) /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration
+	$(genconf_silent) $(genconfig_cmd)  -o /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration -p $(package) \
+	  --configurable-module=GaudiKernel.Proxy \
+	  --configurable-default-name=Configurable.DefaultName \
+	  --configurable-algorithm=ConfigurableAlgorithm \
+	  --configurable-algtool=ConfigurableAlgTool \
+	  --configurable-auditor=ConfigurableAuditor \
+          --configurable-service=ConfigurableService \
+	  -i ../$(tag)/$(library_prefix)RockMuonCalibration.$(shlibsuffix)
+
+/minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration:
+	@ if [ ! -d /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration ] ; then mkdir -p /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration ; fi ;
+
+RockMuonCalibrationConfclean :: RockMuonCalibrationConfuninstall
+	$(cleanup_silent) $(remove_command) /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration/$(confpy) /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/Cal/RockMuonCalibration/genConf/RockMuonCalibration/$(dbpy)
+
+uninstall :: RockMuonCalibrationConfuninstall
+
+RockMuonCalibrationConfuninstall ::
+	@$(uninstall_command) /minerva/app/users/rvizarr/cmtuser/Minerva_v22r1p1_2x2/InstallArea/x86_64-slc7-gcc49-opt/python
+libRockMuonCalibration_so_dependencies = ../x86_64-slc7-gcc49-opt/libRockMuonCalibration.so
+#-- start of cleanup_header --------------
+
+clean :: RockMuonCalibrationConfclean ;
+#	@cd .
+
+ifndef PEDANTIC
+.DEFAULT::
+	$(echo) "(RockMuonCalibrationConf.make) $@: No rule for such target" >&2
+#	@echo "#CMT> Warning: $@: No rule for such target" >&2; exit
+	if echo $@ | grep '$(package)setup\.make$$' >/dev/null; then\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConf.make): $@: File no longer generated" >&2; exit 0; fi
+else
+.DEFAULT::
+	$(echo) "(RockMuonCalibrationConf.make) PEDANTIC: $@: No rule for such target" >&2
+	if echo $@ | grep '$(package)setup\.make$$' >/dev/null; then\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConf.make): $@: File no longer generated" >&2; exit 0;\
+	 elif test $@ = "$(cmt_final_setup)" -o\
+	 $@ = "$(cmt_final_setup_RockMuonCalibrationConf)" ; then\
+	 found=n; for s in 1 2 3 4 5; do\
+	 sleep $$s; test ! -f $@ || { found=y; break; }\
+	 done; if test $$found = n; then\
+	 test -z "$(cmtmsg)" ||\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConf.make) PEDANTIC: $@: Seems to be missing. Ignore it for now" >&2; exit 0 ; fi;\
+	 elif test `expr $@ : '.*/'` -ne 0 ; then\
+	 test -z "$(cmtmsg)" ||\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConf.make) PEDANTIC: $@: Seems to be a missing file. Please check" >&2; exit 2 ; \
+	 else\
+	 test -z "$(cmtmsg)" ||\
+	 echo "$(CMTMSGPREFIX)" "(RockMuonCalibrationConf.make) PEDANTIC: $@: Seems to be a fake target due to some pattern. Just ignore it" >&2 ; exit 0; fi
+endif
+
+RockMuonCalibrationConfclean ::
+#-- end of cleanup_header ---------------
