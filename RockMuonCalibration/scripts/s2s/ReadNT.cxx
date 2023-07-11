@@ -279,7 +279,6 @@ void MakeTimeHeader( TChain * header )
 //==================================================================================================
 void ReadNT()
 {
-
   // Histograms
   BookHistos();
 
@@ -290,7 +289,7 @@ void ReadNT()
   std::vector<std::string> fnames;
   int min_run, max_run;
   GetFilenames( fnames, min_run, max_run );
-
+  
   for( unsigned int i = 0; i < fnames.size(); ++i ) {
 
     // See if the TFile is OK for the file name

@@ -1,1 +1,1 @@
-1 1 /minerva/data/users/rvizarr/minervacal/minervatest_01_01
+1 1 /minerva/data/users/rvizarr/minervacal/minervatest_01_01_test

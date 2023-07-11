@@ -60,6 +60,8 @@ then
 #  exit 1
 fi
 
+# NOT INTERESTED FOR ALIGNMENT PURPOSES
+
 echo '**********************************'
 echo '***** Creating summary tuple *****'
 echo '**********************************'

@@ -2,8 +2,8 @@ CXX = g++
 CXXFLAGS = -g -Wall -fPIC
 ROOTFLAGS = `root-config --cflags --glibs`
 
-BINARIES = ReadNT DoFitCorrection
-TARGETS = ReadNT.o DoFitCorrection.o
+BINARIES = ReadNT DoFitCorrection 
+TARGETS = ReadNT.o DoFitCorrection.o 
 
 #--- if using 'make all' ---#
 all : $(TARGETS)
