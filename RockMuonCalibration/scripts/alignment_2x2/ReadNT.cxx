@@ -58,6 +58,12 @@ TProfile2D * e_avgQ[2][8];
 void BookHistos()
 {
   fout = new TFile("ReadNT.root", "RECREATE");
+
+  //p3ModLposBase = new TProfile3D("p3ModLposBase", "p3ModLposBase",
+  //    240, -5, 115,
+  //    24, -1200, 1200,
+  //    68, -17, 17);
+
   p_moduleLposBase = new TProfile3D("moduleLposBase", "Energy/Path;Module;LPos;Base", 240, -5, 115, 24, -1200, 1200, 68, -17, 17);
   p_shifts = new TProfile2D("shifts", "Peak base position;Module;Strip", 240, -5, 115, 127, 1, 128);
   h_energy_vs_path = new TH2I("h_energy_path", ";Path length (cm);Energy (MeV)", 90, 0.2, 2, 100, 0, 10);
@@ -143,6 +149,9 @@ void LoopOverTracks( TTree * nt )
       //--------------------------------------------------------------------------------------------
       double C = (17-fabs(base[i]))/path[i];
       p_moduleLposBase->Fill(module[i] + 0.5 * (plane[i] - 1), lpos[i], base[i], E[i]*C);
+
+      //p3ModLposBase->Fill(module[i] + 0.5 * (plane[i] - 1), lpos[i], base[i], E[i]*C);
+      
       p_shifts->Fill(module[i] + 0.5 * (plane[i] - 1), strip[i], base[i], E[i]*C);
 
       //--------------------------------------------------------------------------------------------

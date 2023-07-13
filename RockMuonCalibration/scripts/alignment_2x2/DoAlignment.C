@@ -66,18 +66,18 @@ void DoAlignment()
   FILE * fptext = fopen("AlignmentConstants.txt", "w");
 
   TFile * fin = new TFile("ReadNT.root");
-  TProfile3D * p3ModLposBase = (TProfile3D *)fin->Get("p3ModLposBase");
+  TProfile3D * moduleLposBase = (TProfile3D *)fin->Get("moduleLposBase");
 
-  p3ModLposBase->GetYaxis()->SetTitle("lpos");
-  p3ModLposBase->GetZaxis()->SetTitle("triangle base");
+  moduleLposBase->GetYaxis()->SetTitle("lpos");
+  moduleLposBase->GetZaxis()->SetTitle("triangle base");
 
   TCanvas * c1 = new TCanvas("c1", "c1");
   c1->Divide(2,2);
   c1->Print("AlignmentBook.pdf[");
 
-  for (int modbin = 1; modbin <= 240; ++modbin)
+  for (int modbin = 1; modbin <= 240; ++modbin) // From 1 to 240
   {
-    double module_number = p3ModLposBase->GetXaxis()->GetBinLowEdge(modbin);
+    double module_number = moduleLposBase->GetXaxis()->GetBinLowEdge(modbin);
     int module = (int) (5 + module_number) - 5;
     int plane = (int(2 * (module_number + 5)) % 2) + 1;
 
@@ -89,11 +89,11 @@ void DoAlignment()
     if (module >= 0) sprintf(ModTitle, "mod%03dpl%1d", module, plane);
     if (module <  0) sprintf(ModTitle, "modm%1dpl%1d", module, plane);   
  
-    p3ModLposBase->GetXaxis()->SetRange(modbin, modbin);
+    moduleLposBase->GetXaxis()->SetRange(modbin, modbin);
 
     char H2Name[40];
     sprintf(H2Name, "%s_2D", ModTitle);
-    TH2 * h2BaseLpos = p3ModLposBase->Project3D("yz");
+    TH2 * h2BaseLpos = moduleLposBase->Project3D("yz");
     h2BaseLpos->SetName(H2Name);
     h2BaseLpos->SetTitle(Form("Module %d Plane %d;Base Position (mm);Longitudinal Position (mm);Average Energy (MeV)",module,plane));
 
